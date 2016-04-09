@@ -19,31 +19,21 @@ namespace Testers
 
         private Log testersLogs = new Log();
 
+        private int testersCount;
+
+        private string[] names = new string[] { "Jhon", "Alex", "Bob", "Carl", "Monika", "Philip", "Andrew", "George", "Josefina", "Danielle", "Tommy", "Arnold", "Carolyn", "Herman", "Raymond", "Ricky", "Allan", "Kerry", "Miguel", "Ken" };
+
+
         private void Form1_Load(object sender, EventArgs e)
         {
             Log.logSource = listBox1;
             Log.mainControlForm = this;
 
-            string[] names = new string[] { "Jhon", "Alex", "Bob", "Carl", "Monika", "Philip", "Andrew", "George" };
+            testersCountTrackBar.Maximum = names.Length;
+            testersCount = testersCountTrackBar.Value;
 
             Tester.OnTextStatusUpdate += TesterTextStatusUpdateHandler;
             ProgPool.OnProgPoolSizeUpdate += ProgPoolSizeUpdateHandler;
-
-
-            for (int i = 0; i < 8; i++)
-            {
-                string name = names[i];
-                int temp = i;
-                testersInfoGrid.Rows.Add(new string[] { name, " " });
-                Thread t = new Thread(() =>
-                {
-                    new Tester(name, temp);
-                });
-                t.Start();
-            }
-
-
-
         }
 
         private void TesterTextStatusUpdateHandler(object t, string msg, string prefix)
@@ -72,6 +62,27 @@ namespace Testers
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
             testersLogs = Log.Open();
+        }
+
+        private void testersCountTrackBar_ValueChanged(object sender, EventArgs e)
+        {
+            testersCountLabel.Text = $"Кількість тестерів: {testersCountTrackBar.Value}";
+            testersCount = testersCountTrackBar.Value;
+        }
+
+        private void startToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < testersCount; i++)
+            {
+                string name = names[i];
+                int temp = i;
+                testersInfoGrid.Rows.Add(new string[] { name, " " });
+                Thread t = new Thread(() =>
+                {
+                    new Tester(name, temp);
+                });
+                t.Start();
+            }
         }
     }
 }

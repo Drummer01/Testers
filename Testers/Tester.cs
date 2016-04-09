@@ -18,6 +18,7 @@ namespace Testers
             2 : testing program
             3 : sleeping
             4 : fixing program
+            5 : testing fixed program
         */
         public int status { private set; get; } = 1;
 
@@ -33,7 +34,7 @@ namespace Testers
 
         private int sleepDuration;
 
-        private static string[] statusPrefix = { "[WRITING]", "[TESTING]", "[SLEEPING]", "[FIXING]" };
+        private static string[] statusPrefix = { "[WRITING]", "[TESTING]", "[SLEEPING]", "[FIXING]", "[TESTING]" };
 
         public Tester(string name, int index)
         {
@@ -138,14 +139,24 @@ namespace Testers
                 needToTest.correct = correct;
                 needToTest.beenFixed = false;
                 __changeTextStatus($"Program fixed by {needToTest.writer.name}'s is " + (correct == true ? "correct" : "not correct"));
+
+                LookAround();
                 __changeStatus(3);
             }
         }
 
         public void LookAround()
         {
-            if (ownProgram?.correct == false) this.FixOwnProgram();
-            if (needToTest?.beenFixed == true) this.TestFixedProgram();
+            if (ownProgram?.correct == false)
+            {
+                this.status = 4;
+                this.FixOwnProgram();
+            }
+            if (needToTest?.beenFixed == true)
+            {
+                this.status = 5;
+                this.TestFixedProgram();
+            }
         }
 
         /*
@@ -170,6 +181,7 @@ namespace Testers
                 Thread.Sleep(1000);
 
 
+                LookAround();
                 this.status = status;
                 switch (status)
                 {
@@ -186,7 +198,6 @@ namespace Testers
                         this.FixOwnProgram();
                         break;
                 }
-                LookAround();
             }
         }
     }
