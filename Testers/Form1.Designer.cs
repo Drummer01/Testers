@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.testersInfoGrid = new System.Windows.Forms.DataGridView();
             this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -37,11 +37,12 @@
             this.logsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.testersCountTrackBar = new System.Windows.Forms.TrackBar();
-            this.testersCountLabel = new System.Windows.Forms.Label();
             this.simulationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.startToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.stopToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.testersCountTrackBar = new System.Windows.Forms.TrackBar();
+            this.testersCountLabel = new System.Windows.Forms.Label();
+            this.programCount = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.testersInfoGrid)).BeginInit();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.testersCountTrackBar)).BeginInit();
@@ -73,8 +74,8 @@
             this.testersInfoGrid.Location = new System.Drawing.Point(1, 78);
             this.testersInfoGrid.Name = "testersInfoGrid";
             this.testersInfoGrid.RowHeadersVisible = false;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.testersInfoGrid.RowsDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.testersInfoGrid.RowsDefaultCellStyle = dataGridViewCellStyle2;
             this.testersInfoGrid.Size = new System.Drawing.Size(585, 247);
             this.testersInfoGrid.TabIndex = 1;
             // 
@@ -122,27 +123,6 @@
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
-            // testersCountTrackBar
-            // 
-            this.testersCountTrackBar.Location = new System.Drawing.Point(374, 27);
-            this.testersCountTrackBar.Minimum = 1;
-            this.testersCountTrackBar.Name = "testersCountTrackBar";
-            this.testersCountTrackBar.Size = new System.Drawing.Size(200, 45);
-            this.testersCountTrackBar.TabIndex = 3;
-            this.testersCountTrackBar.Value = 1;
-            this.testersCountTrackBar.ValueChanged += new System.EventHandler(this.testersCountTrackBar_ValueChanged);
-            // 
-            // testersCountLabel
-            // 
-            this.testersCountLabel.AutoSize = true;
-            this.testersCountLabel.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.testersCountLabel.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.testersCountLabel.Location = new System.Drawing.Point(12, 27);
-            this.testersCountLabel.Name = "testersCountLabel";
-            this.testersCountLabel.Size = new System.Drawing.Size(188, 18);
-            this.testersCountLabel.TabIndex = 4;
-            this.testersCountLabel.Text = "Кількість тестерів: 1";
-            // 
             // simulationToolStripMenuItem
             // 
             this.simulationToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -164,12 +144,46 @@
             this.stopToolStripMenuItem.Name = "stopToolStripMenuItem";
             this.stopToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.stopToolStripMenuItem.Text = "Stop";
+            this.stopToolStripMenuItem.Click += new System.EventHandler(this.stopToolStripMenuItem_Click);
+            // 
+            // testersCountTrackBar
+            // 
+            this.testersCountTrackBar.Location = new System.Drawing.Point(374, 27);
+            this.testersCountTrackBar.Minimum = 1;
+            this.testersCountTrackBar.Name = "testersCountTrackBar";
+            this.testersCountTrackBar.Size = new System.Drawing.Size(200, 45);
+            this.testersCountTrackBar.TabIndex = 3;
+            this.testersCountTrackBar.Value = 1;
+            this.testersCountTrackBar.ValueChanged += new System.EventHandler(this.testersCountTrackBar_ValueChanged);
+            // 
+            // testersCountLabel
+            // 
+            this.testersCountLabel.AutoSize = true;
+            this.testersCountLabel.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.testersCountLabel.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.testersCountLabel.Location = new System.Drawing.Point(12, 27);
+            this.testersCountLabel.Name = "testersCountLabel";
+            this.testersCountLabel.Size = new System.Drawing.Size(188, 18);
+            this.testersCountLabel.TabIndex = 4;
+            this.testersCountLabel.Text = "Кількість тестерів: 1";
+            // 
+            // programCount
+            // 
+            this.programCount.AutoSize = true;
+            this.programCount.Font = new System.Drawing.Font("Verdana", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.programCount.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.programCount.Location = new System.Drawing.Point(12, 54);
+            this.programCount.Name = "programCount";
+            this.programCount.Size = new System.Drawing.Size(217, 16);
+            this.programCount.TabIndex = 5;
+            this.programCount.Text = "Кількість програм у черзі: 0";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(586, 439);
+            this.Controls.Add(this.programCount);
             this.Controls.Add(this.testersCountLabel);
             this.Controls.Add(this.testersCountTrackBar);
             this.Controls.Add(this.testersInfoGrid);
@@ -203,6 +217,7 @@
         private System.Windows.Forms.ToolStripMenuItem simulationToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem startToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem stopToolStripMenuItem;
+        private System.Windows.Forms.Label programCount;
     }
 }
 

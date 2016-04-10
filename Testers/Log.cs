@@ -4,6 +4,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Windows.Forms;
 using System.Xml.Serialization;
+using System.Text.RegularExpressions;
 
 namespace Testers
 {
@@ -22,7 +23,6 @@ namespace Testers
         {
             logs = new List<string>();
         }
-
 
         public void push(string text, bool showOnForm = false)
         {
@@ -73,6 +73,31 @@ namespace Testers
             }
             return savedLogs;
         }
+
+        public EfficiencyChartItems CalculateEfficiency()
+        {
+            EfficiencyChartItems chartItems = new EfficiencyChartItems();
+            Regex status = new Regex(@"\[(\w+)\]", RegexOptions.ECMAScript);
+            Regex correct = new Regex(@".+by\s(\w+)\sis\s(\w+)", RegexOptions.ECMAScript);
+            foreach(string item in this.logs)
+            {
+                Match statusMatch = status.Match(item);
+                switch(statusMatch.Groups[0].Value)
+                {
+                    case "[TESTING]":
+                        Match correctMatch = correct.Match(item);
+                        string name = correctMatch.Groups[1].Value;
+                        if (!name.Equals(""))
+                        {
+                            bool progCorrect = correctMatch.Groups[2].Value.Equals("correct") ? true : false;
+                            chartItems[name].update(progCorrect);
+                        }
+                        break;
+                }
+            }
+            return chartItems;
+        }
+       
 
         /*
         ################################

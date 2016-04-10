@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace Testers
 {
-    public delegate void progPoolSizeUpdate(int size);
+    public delegate void progPoolSizeUpdate(object size);
 
     static class ProgPool
     {
 
-        public static event progPoolSizeUpdate OnProgPoolSizeUpdate = delegate { };
+        public static event progPoolSizeUpdate OnProgPoolSizeUpdate;
 
         public static List<Prog> pool = new List<Prog>();
 

@@ -23,6 +23,7 @@ namespace Testers
 
         private string[] names = new string[] { "Jhon", "Alex", "Bob", "Carl", "Monika", "Philip", "Andrew", "George", "Josefina", "Danielle", "Tommy", "Arnold", "Carolyn", "Herman", "Raymond", "Ricky", "Allan", "Kerry", "Miguel", "Ken" };
 
+        delegate void OnProgPoolSizeCallback(object text);
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -34,6 +35,10 @@ namespace Testers
 
             Tester.OnTextStatusUpdate += TesterTextStatusUpdateHandler;
             ProgPool.OnProgPoolSizeUpdate += ProgPoolSizeUpdateHandler;
+
+            testersLogs = Log.Open();
+            var a = new TestersEfficiencyForm(testersLogs.CalculateEfficiency());
+            a.Show();
         }
 
         private void TesterTextStatusUpdateHandler(object t, string msg, string prefix)
@@ -49,9 +54,17 @@ namespace Testers
             }
         }
 
-        private void ProgPoolSizeUpdateHandler(int size)
+        private void ProgPoolSizeUpdateHandler(object size)
         {
-            //Log.show(size);
+            if (programCount.InvokeRequired)
+            {
+                OnProgPoolSizeCallback cb = new OnProgPoolSizeCallback(ProgPoolSizeUpdateHandler);
+                this.Invoke(cb, new object[] { size });
+            }
+            else
+            {
+                programCount.Text = $"Кількість програм у черзі {size}";
+            }
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
@@ -72,6 +85,8 @@ namespace Testers
 
         private void startToolStripMenuItem_Click(object sender, EventArgs e)
         {
+
+            testersLogs = new Log();
             for (int i = 0; i < testersCount; i++)
             {
                 string name = names[i];
@@ -83,6 +98,11 @@ namespace Testers
                 });
                 t.Start();
             }
+        }
+
+        private void stopToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            
         }
     }
 }

@@ -77,7 +77,7 @@ namespace Testers
                 needToTest.tester = this;
                 Thread.Sleep(Util.randInt(3000, 7000));
                 needToTest.correct = Util.randBool();
-                __changeTextStatus($"Program written by {needToTest.writer.name}'s is " + (needToTest.correct ? "correct" : "not correct"));
+                __changeTextStatus($"Program written by {needToTest.writer.name} is " + (needToTest.correct ? "correct" : "not correct"));
                 if (!needToTest.correct)
                 {
                     if (needToTest.writer.status == 3)
