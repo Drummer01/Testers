@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -36,9 +37,6 @@ namespace Testers
             Tester.OnTextStatusUpdate += TesterTextStatusUpdateHandler;
             ProgPool.OnProgPoolSizeUpdate += ProgPoolSizeUpdateHandler;
 
-            testersLogs = Log.Open();
-            var a = new TestersEfficiencyForm(testersLogs.CalculateEfficiency());
-            a.Show();
         }
 
         private void TesterTextStatusUpdateHandler(object t, string msg, string prefix)
@@ -69,12 +67,27 @@ namespace Testers
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            testersLogs.Save();
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.Filter = "xml files (*.xlm)|*.xml|All files (*.*)|*.*";
+            sfd.FilterIndex = 2;
+            sfd.RestoreDirectory = true;
+            if(sfd.ShowDialog() == DialogResult.OK)
+            {
+                testersLogs.Save(sfd.OpenFile());
+            }
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            testersLogs = Log.Open();
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "xml files (*.xlm)|*.xml|All files (*.*)|*.*";
+            ofd.FilterIndex = 1;
+            ofd.RestoreDirectory = true;
+
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                testersLogs = Log.Open(ofd.OpenFile());
+            }
         }
 
         private void testersCountTrackBar_ValueChanged(object sender, EventArgs e)
@@ -103,6 +116,12 @@ namespace Testers
         private void stopToolStripMenuItem_Click(object sender, EventArgs e)
         {
             
+        }
+
+        private void calculateToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = new TestersEfficiencyForm(testersLogs.CalculateEfficiency());
+            form.Show();
         }
     }
 }

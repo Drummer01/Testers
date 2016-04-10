@@ -36,9 +36,9 @@ namespace Testers
             __setText(text);
         }
 
-        public void Save()
+        public void Save(Stream fs)
         {
-            FileStream fs = new FileStream("logs.xml", FileMode.Create);
+            //FileStream fs = new FileStream(path, FileMode.Create);
             XmlSerializer serializer = new XmlSerializer(this.GetType());
             try
             {
@@ -54,10 +54,10 @@ namespace Testers
             }
         }
 
-        public static Log Open()
+        public static Log Open(Stream fs)
         {
             Log savedLogs = null;
-            FileStream fs = new FileStream("logs.xml", FileMode.Open);
+            //FileStream fs = new FileStream("logs.xml", FileMode.Open);
             XmlSerializer serializer = new XmlSerializer(typeof(Log));
             try
             {
