@@ -24,6 +24,8 @@ namespace Testers
 
         private string[] names = new string[] { "Jhon", "Alex", "Bob", "Carl", "Monika", "Philip", "Andrew", "George", "Josefina", "Danielle", "Tommy", "Arnold", "Carolyn", "Herman", "Raymond", "Ricky", "Allan", "Kerry", "Miguel", "Ken" };
 
+        private Thread[] threads;
+
         delegate void OnProgPoolSizeCallback(object text);
 
         private void Form1_Load(object sender, EventArgs e)
@@ -32,7 +34,8 @@ namespace Testers
             Log.mainControlForm = this;
 
             testersCountTrackBar.Maximum = names.Length;
-            testersCount = testersCountTrackBar.Value;
+
+            this.testersCount = testersCountTrackBar.Value;
 
             Tester.OnTextStatusUpdate += TesterTextStatusUpdateHandler;
             ProgPool.OnProgPoolSizeUpdate += ProgPoolSizeUpdateHandler;
@@ -87,6 +90,8 @@ namespace Testers
             if (ofd.ShowDialog() == DialogResult.OK)
             {
                 testersLogs = Log.Open(ofd.OpenFile());
+                var form = new TestersEfficiencyForm(testersLogs.CalculateEfficiency());
+                form.Show();
             }
         }
 
@@ -100,22 +105,26 @@ namespace Testers
         {
 
             testersLogs = new Log();
+            this.threads = new Thread[this.testersCount];
+
             for (int i = 0; i < testersCount; i++)
             {
                 string name = names[i];
                 int temp = i;
-                testersInfoGrid.Rows.Add(new string[] { name, " " });
                 Thread t = new Thread(() =>
                 {
                     new Tester(name, temp);
                 });
+                testersInfoGrid.Rows.Add(new string[] { name, " " });
+                threads[temp] = t;
                 t.Start();
             }
         }
 
         private void stopToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            
+            for (int i = 0; i < this.threads.Length; i++)
+                this.threads[i]?.Abort();
         }
 
         private void calculateToolStripMenuItem_Click(object sender, EventArgs e)
