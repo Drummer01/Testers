@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 
+//https://github.com/Self747/Testers/blob/master/Testers/Form1.cs
 namespace Testers
 {
     public partial class Form1 : Form
@@ -30,7 +31,7 @@ namespace Testers
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            Log.logSource = listBox1;
+            Log.logSource = logsListBox;
             Log.mainControlForm = this;
 
             testersCountTrackBar.Maximum = names.Length;
@@ -49,6 +50,7 @@ namespace Testers
                 var tester = (Tester)t;
                 testersLogs.push($"{DateTime.Now.ToLongTimeString()} {prefix} {tester.name} : {msg}", true);
                 testersInfoGrid.Rows[tester.index].Cells[1].Value = msg;
+                testersInfoGrid.Rows[tester.index].Cells[0].Style = new DataGridViewCellStyle { ForeColor = Tester.textStatusColors[tester.status] };
             }
             catch (Exception)
             {
@@ -103,6 +105,8 @@ namespace Testers
 
         private void startToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            this.testersInfoGrid.Rows.Clear();
+            this.logsListBox.Items.Clear();
 
             testersLogs = new Log();
             this.threads = new Thread[this.testersCount];
@@ -123,14 +127,20 @@ namespace Testers
 
         private void stopToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            for (int i = 0; i < this.threads.Length; i++)
+            for (int i = 0; i < (this.threads?.Length == null ? 0 : this.threads.Length); i++)
                 this.threads[i]?.Abort();
+            
         }
 
         private void calculateToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = new TestersEfficiencyForm(testersLogs.CalculateEfficiency());
             form.Show();
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            stopToolStripMenuItem_Click(null, null);
         }
     }
 }

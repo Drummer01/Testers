@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
+
+//https://github.com/Self747/Testers/blob/master/Testers/Tester.cs
 namespace Testers
 {
-    public delegate void textStatusUpdate(object t, string message, string prefix);
+    public delegate void textStatusUpdate(object tester, string message, string prefix);
 
     class Tester
     {
@@ -22,11 +25,11 @@ namespace Testers
         */
         public int status { private set; get; } = 1;
 
-        public string name { private set; get; } = "Unnamed";
+        public string name { private set; get; } = "Неназваний";
 
-        public Prog ownProgram                   = null;
+        public Prog ownProgram { get; set; } = null;
 
-        public Prog needToTest                   = null;
+        public Prog needToTest { get; set; } = null;
 
         public int index;
 
@@ -34,7 +37,9 @@ namespace Testers
 
         private int sleepDuration;
 
-        private static string[] statusPrefix = { "[WRITING]", "[TESTING]", "[SLEEPING]", "[FIXING]", "[TESTING]" };
+        private static string[] statusPrefix = { "[ПИШЕ]", "[ТЕСТУЄ]", "[СПИТЬ]", "[ВИПРАВЛЯЄ]", "[ТЕСТУЄ]" };
+
+        public static Color[] textStatusColors = { Color.DarkBlue, Color.Brown, Color.Teal, Color.Indigo, Color.Brown };
 
         public Tester(string name, int index)
         {
@@ -50,11 +55,11 @@ namespace Testers
         {
             lock(this)
             {
-                __changeTextStatus("Making own program");
+                __changeTextStatus("Пише власну програму");
                 Thread.Sleep(Util.randInt(4000, 6000));
                 ownProgram = new Prog() { writer = this };
                 ProgPool.add(ownProgram);
-                __changeTextStatus("Finished own program");
+                __changeTextStatus("Закінчив написання програми");
 
                 __changeStatus(2);
             }   
@@ -67,17 +72,17 @@ namespace Testers
                 needToTest = ProgPool.pop(this);
                 if (needToTest == null)
                 {
-                    __changeTextStatus("Prepearing to write new program because it appears that nothing to test left");
+                    __changeTextStatus("Пише свою програму, бо нічого тестити");
                     __changeStatus(1);
                     return;
                 }
 
-                __changeTextStatus($"Start testing {needToTest.writer.name}'s program");
+                __changeTextStatus($"Починає тестувати {needToTest.writer.name} програму");
 
                 needToTest.tester = this;
                 Thread.Sleep(Util.randInt(3000, 7000));
                 needToTest.correct = Util.randBool();
-                __changeTextStatus($"Program written by {needToTest.writer.name} is " + (needToTest.correct ? "correct" : "not correct"));
+                __changeTextStatus($"Програма написана {needToTest.writer.name} є " + (needToTest.correct ? "правильна" : "не правильна"));
                 if (!needToTest.correct)
                 {
                     if (needToTest.writer.status == 3)
@@ -94,10 +99,10 @@ namespace Testers
         {
             lock(this)
             {
-                __changeTextStatus("Sleeping...");
+                __changeTextStatus("Спить..zzZZz..");
                 if(are.WaitOne(sleepDuration) == true)
                 {
-                    __changeTextStatus($"{this.name} been awakened");
+                    __changeTextStatus($"{this.name} був розбуджений");
                     if (ownProgram?.correct == true)
                     {
                         __changeStatus(1);
@@ -109,7 +114,7 @@ namespace Testers
                 }
                 else
                 {
-                    __changeTextStatus("Just woke up");
+                    __changeTextStatus("Прокинувся");
                 }
                 are.Reset();
 
@@ -122,7 +127,7 @@ namespace Testers
         {
             lock(this)
             {
-                __changeTextStatus("Fixing own program");
+                __changeTextStatus("Виправляє власну програму");
                 Thread.Sleep(Util.randInt(4000, 6000));
                 ownProgram.correct = true;
                 ownProgram.beenFixed = true;
@@ -133,12 +138,12 @@ namespace Testers
         {
             lock (this)
             {
-                __changeTextStatus($"Testing {this.needToTest.writer.name}'s fixed program");
+                __changeTextStatus($"Тестує {this.needToTest.writer.name} виправлену програму");
                 Thread.Sleep(Util.randInt(3000, 7000));
                 bool correct = Util.randBool();
                 needToTest.correct = correct;
                 needToTest.beenFixed = false;
-                __changeTextStatus($"Program fixed by {needToTest.writer.name}'s is " + (correct == true ? "correct" : "not correct"));
+                __changeTextStatus($"Виправлена програма {needToTest.writer.name} є " + (correct == true ? "правильна" : "не правильна"));
 
                 LookAround();
                 __changeStatus(3);
@@ -177,7 +182,7 @@ namespace Testers
             {
 
                 Thread.Sleep(2500);
-                __changeTextStatus("Making coffee");
+                __changeTextStatus("П'є кавуську");
                 Thread.Sleep(1000);
 
 
