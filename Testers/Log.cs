@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using System.Xml.Serialization;
 using System.Text.RegularExpressions;
 
+//https://github.com/Self747/Testers/blob/master/Testers/Log.cs
 namespace Testers
 {
     [Serializable]
@@ -75,25 +76,26 @@ namespace Testers
         }
 
         public EfficiencyChartItems CalculateEfficiency()
-        {
+        {                   
             EfficiencyChartItems chartItems = new EfficiencyChartItems();
-            Regex status = new Regex(@"\[(\w+)\]", RegexOptions.ECMAScript);
-            Regex correct = new Regex(@".+by\s(\w+)\sis\s(\w+)", RegexOptions.ECMAScript);
-            foreach(string item in this.logs)
-            {
+            Regex status = new Regex(@"\[(.+)\]", RegexOptions.ECMAScript);
+            Regex correct = new Regex(@".+написана\s([\w+]+)\sє\s([а-я]+)", RegexOptions.ECMAScript);
+
+            foreach (string item in this.logs)
+            {               
                 Match statusMatch = status.Match(item);
-                switch(statusMatch.Groups[0].Value)
-                {
-                    case "[TESTING]":
+                switch (statusMatch.Groups[0].Value)
+                {           
+                    case "[ТЕСТУЄ]":
                         Match correctMatch = correct.Match(item);
                         string name = correctMatch.Groups[1].Value;
                         if (!name.Equals(""))
-                        {
-                            bool progCorrect = correctMatch.Groups[2].Value.Equals("correct") ? true : false;
+                        {   
+                            bool progCorrect = correctMatch.Groups[2].Value.Equals("правильна");
                             chartItems[name].update(progCorrect);
-                        }
+                        }   
                         break;
-                }
+                }           
             }
             return chartItems;
         }

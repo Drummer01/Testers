@@ -59,7 +59,7 @@
             this.ClientSize = new System.Drawing.Size(1250, 434);
             this.Controls.Add(this.testersEfficiencyChar);
             this.Name = "TestersEfficiencyForm";
-            this.Text = "TestersEfficiencyForm";
+            this.Text = "Графік";
             this.Load += new System.EventHandler(this.TestersEfficiencyForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.testersEfficiencyChar)).EndInit();
             this.ResumeLayout(false);

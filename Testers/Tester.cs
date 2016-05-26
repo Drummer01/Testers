@@ -82,7 +82,7 @@ namespace Testers
                 needToTest.tester = this;
                 Thread.Sleep(Util.randInt(3000, 7000));
                 needToTest.correct = Util.randBool();
-                __changeTextStatus($"Програма написана {needToTest.writer.name} є " + (needToTest.correct ? "правильна" : "не правильна"));
+                __changeTextStatus($"Програма написана {needToTest.writer.name} є " + (needToTest.correct ? "правильна" : "неправильна"));
                 if (!needToTest.correct)
                 {
                     if (needToTest.writer.status == 3)
@@ -143,7 +143,7 @@ namespace Testers
                 bool correct = Util.randBool();
                 needToTest.correct = correct;
                 needToTest.beenFixed = false;
-                __changeTextStatus($"Виправлена програма {needToTest.writer.name} є " + (correct == true ? "правильна" : "не правильна"));
+                __changeTextStatus($"Виправлена програма {needToTest.writer.name} є " + (correct == true ? "правильна" : "неправильна"));
 
                 LookAround();
                 __changeStatus(3);

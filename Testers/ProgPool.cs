@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+//https://github.com/Self747/Testers/blob/master/Testers/ProgPool.cs
 namespace Testers
 {
     public delegate void progPoolSizeUpdate(object size);

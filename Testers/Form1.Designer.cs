@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.logsListBox = new System.Windows.Forms.ListBox();
             this.testersInfoGrid = new System.Windows.Forms.DataGridView();
             this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.status = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -37,27 +37,27 @@
             this.logsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.calculateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.simulationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.startToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.stopToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.testersCountTrackBar = new System.Windows.Forms.TrackBar();
             this.testersCountLabel = new System.Windows.Forms.Label();
             this.programCount = new System.Windows.Forms.Label();
-            this.calculateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.testersInfoGrid)).BeginInit();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.testersCountTrackBar)).BeginInit();
             this.SuspendLayout();
             // 
-            // listBox1
+            // logsListBox
             // 
-            this.listBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.logsListBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.Location = new System.Drawing.Point(1, 331);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(583, 108);
-            this.listBox1.TabIndex = 0;
+            this.logsListBox.FormattingEnabled = true;
+            this.logsListBox.Location = new System.Drawing.Point(1, 331);
+            this.logsListBox.Name = "logsListBox";
+            this.logsListBox.Size = new System.Drawing.Size(583, 108);
+            this.logsListBox.TabIndex = 0;
             // 
             // testersInfoGrid
             // 
@@ -82,11 +82,13 @@
             // 
             // name
             // 
+            this.name.FillWeight = 35.53299F;
             this.name.HeaderText = "Імя тестера";
             this.name.Name = "name";
             // 
             // status
             // 
+            this.status.FillWeight = 164.467F;
             this.status.HeaderText = "Статус";
             this.status.Name = "status";
             // 
@@ -114,16 +116,23 @@
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
             this.openToolStripMenuItem.Text = "Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
+            // 
+            // calculateToolStripMenuItem
+            // 
+            this.calculateToolStripMenuItem.Name = "calculateToolStripMenuItem";
+            this.calculateToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.calculateToolStripMenuItem.Text = "Calculate";
+            this.calculateToolStripMenuItem.Click += new System.EventHandler(this.calculateToolStripMenuItem_Click);
             // 
             // simulationToolStripMenuItem
             // 
@@ -180,13 +189,6 @@
             this.programCount.TabIndex = 5;
             this.programCount.Text = "Кількість програм у черзі: 0";
             // 
-            // calculateToolStripMenuItem
-            // 
-            this.calculateToolStripMenuItem.Name = "calculateToolStripMenuItem";
-            this.calculateToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.calculateToolStripMenuItem.Text = "Calculate";
-            this.calculateToolStripMenuItem.Click += new System.EventHandler(this.calculateToolStripMenuItem_Click);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -196,11 +198,12 @@
             this.Controls.Add(this.testersCountLabel);
             this.Controls.Add(this.testersCountTrackBar);
             this.Controls.Add(this.testersInfoGrid);
-            this.Controls.Add(this.listBox1);
+            this.Controls.Add(this.logsListBox);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Курсовий проект";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.testersInfoGrid)).EndInit();
             this.menuStrip1.ResumeLayout(false);
@@ -213,10 +216,8 @@
 
         #endregion
 
-        private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.ListBox logsListBox;
         private System.Windows.Forms.DataGridView testersInfoGrid;
-        private System.Windows.Forms.DataGridViewTextBoxColumn name;
-        private System.Windows.Forms.DataGridViewTextBoxColumn status;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem logsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
@@ -228,6 +229,8 @@
         private System.Windows.Forms.ToolStripMenuItem stopToolStripMenuItem;
         private System.Windows.Forms.Label programCount;
         private System.Windows.Forms.ToolStripMenuItem calculateToolStripMenuItem;
+        private System.Windows.Forms.DataGridViewTextBoxColumn name;
+        private System.Windows.Forms.DataGridViewTextBoxColumn status;
     }
 }
 
